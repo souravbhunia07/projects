@@ -17,7 +17,7 @@ class shopping
     void buyer();
     void add();
     void edit();
-    void remove();
+    void del();
     void list();
     void receipt();
 };
@@ -67,7 +67,7 @@ void shopping::menu()
 
     case 2:
         {
-            buyer();
+            //buyer();
         }
         break;
 
@@ -117,7 +117,7 @@ void shopping::administrator()
 
     case 3:
         {
-            remove();
+            del();
         }
         break;
     
@@ -153,7 +153,7 @@ void shopping::buyer()
         break;
     
     case 2:
-        menu;
+        menu();
         break;
 
     default:
@@ -165,6 +165,7 @@ void shopping::buyer()
 */
 void shopping::add()
 {
+    m:
     fstream data;
     int c;
     int token = 0;
@@ -182,7 +183,136 @@ void shopping::add()
     cout<<"\t\tDiscount On Product      "<<endl;
     cin>>discount;
 
-   
+    data.open("database.txt", ios::in);
+    if (!data)
+    {
+        data.open("database.txt", ios::app | ios::out);
+        data << productcode <<" "<< productname <<" "<< price <<" "<< discount<<"\n";
+        data.close();
+    }
+    else
+    {
+        data >> c >> n >> p >> d;
+        while (!data.eof())
+        {
+            if (c == productcode)
+            {
+                token++;
+            }
+            data >> c >> n >> p >> d;
+        }
+        data.close();
+        if (token == 1)
+        {
+            cout<<"\t\t\t========Product Already Exist=============="<<endl;
+            goto m;
+        }
+        else
+        {
+            data.open("database.txt", ios::app | ios::out);
+            data << productcode <<" "<< productname <<" "<< price <<" "<< discount<<"\n";
+            data.close();
+        }
+    }
+    
+    cout<<"\t\t\t===============Record Inserted=================="<<endl;
+}
+
+void shopping::edit()
+{
+    fstream data, data1;
+    int c;
+    int token = 0;
+    float p;
+    float d;
+    string n;
+    int pcode;
+    cout<<"\t\t\t==============Product Code========================"<<endl;
+    cin>>pcode;
+    data.open("database.txt", ios::in);
+    if (!data)
+    {
+        cout<<"\t\t\t------------File Doesn't Exist------------------"<<endl;
+    }
+    else
+    {
+        data1.open("database1.txt", ios::app | ios::out);
+        data >> c >> n >> p >> d;
+        while (!data.eof())
+        {
+            if (c == pcode)
+            {
+                cout<<"\t\t\t Enter New Product Code:-";
+                cin>>c;
+                cout<<"\t\t\t Enter Name Of The Product:-";
+                cin>>n;
+                cout<<"\t\t\t Enter Price Of The Product:-";
+                cin>>p;
+                cout<<"\t\t\t Enter Discount Of The Product:-";
+                cin>>d;
+                data1<<c<<" "<<n<<" "<<p<<" "<<d<<endl;
+                cout<<"\t\t\t=============Records Edited!================"<<endl;
+                token++;
+            }
+            else
+            {
+                data1<<c<<" "<<n<<" "<<p<<" "<<d<<endl;
+            }
+            data>>c>>n>>p>>d;
+        }
+        data.close();
+        data1.close();
+        if (token == 0)
+        {
+            cout<<"\t\t\t=========== Record Not Found! ======================"<<endl;
+        }
+        remove("database.txt");
+        rename("database1.txt", "database.txt");
+    }
+}
+
+void shopping::del()
+{
+    fstream data, data1;
+    int c;
+    int token = 0;
+    float p;
+    float d;
+    string n;
+    int pcode;
+    cout<<"\t\t\t==============Product Code========================"<<endl;
+    cin>>pcode;
+    data.open("database.txt", ios::in);
+    if (!data)
+    {
+        cout<<"\t\t\t------------File Doesn't Exist------------------"<<endl;
+    }
+    else
+    {
+        data1.open("database1.txt", ios::app | ios::out);
+        data >> c >> n >> p >> d;
+        while (!data.eof())
+        {
+            if (c == pcode)
+            {
+                cout<<"\t\t\t=============Records Deleted!================"<<endl;
+                token++;
+            }
+            else
+            {
+                data1<<c<<" "<<n<<" "<<p<<" "<<d<<endl;
+            }
+            data>>c>>n>>p>>d;
+        }
+        data.close();
+        data1.close();
+        if (token == 0)
+        {
+            cout<<"\t\t\t=========== Record Not Found! ======================"<<endl;
+        }
+        remove("database.txt");
+        rename("database1.txt", "database.txt");
+    }
 }
 
 int main()
