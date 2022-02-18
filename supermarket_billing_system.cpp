@@ -173,7 +173,7 @@ void shopping::add()
     float d;
     string n;
 
-    cout<<"\t\tAdd New Product       "<<endl;
+    cout<<"\t\tAdd New Product        "<<endl;
     cout<<"\t\tProduct Code Of The Product"<<endl;
     cin>>productcode;
     cout<<"\t\tName Of The Product     "<<endl;
