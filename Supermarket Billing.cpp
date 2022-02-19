@@ -24,6 +24,7 @@ class shopping
     void ulogin();
     void feedback();
     void reviews();
+    void contact();
 };
 
 void shopping::menu()
@@ -320,6 +321,15 @@ void shopping:: reviews()
     data>>rating>>feedback;
   }
   data.close();
+}
+void contact()
+{
+  cout<<"/t/t/t Utkarsh Ahuja"<<endl;
+  cout<<"/t/t8368865346"<<endl;
+  cout<<"/t/t ahujautkarsh80@gmail.com"<<endl;
+  cout<<"/t/t Sourav Bhunia"<<endl;
+  cout<<"/t/t 9711385682 "<<endl;
+  cout<<"/t/t Souravbhunia153@gmail.com "  <<endl;
 }
 void shopping::add()
 {
