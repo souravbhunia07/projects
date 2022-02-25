@@ -20,6 +20,11 @@ class shopping
     void del();
     void list();
     void receipt();
+    void usignup();
+    void ulogin();
+    void feedback();
+    void reviews();
+    void contact();
 };
 
 void shopping::menu()
@@ -41,7 +46,6 @@ void shopping::menu()
     cout<<"\t\t  |      2) BUYER               |"<<endl;
     cout<<"\t\t                                 "<<endl;
     cout<<"\t\t  |      3) EXIT                |"<<endl;
-    cout<<"\t\t                                 "<<endl;
     cout<<"\t\t\tPlease select: ";
     cin>>choice;
 
@@ -55,7 +59,7 @@ void shopping::menu()
         cin>>password;
         mLength = email.length();
         s = email.substr(mLength-7, mLength-1);
-        if (s == "@bb.com" && password == "sourav")
+        if (s == "@bb.com" && (password == "sourav"||password=="utkarsh"))
         {
             administrator();
         }
@@ -67,16 +71,14 @@ void shopping::menu()
 
     case 2:
         {
-            //buyer();
-        }
-        break;
-
-    case 3:
-        {
-            exit(0);
+            buyer();
         }
         break;
     
+    case 3:
+        {
+           exit(0);
+        }
     default:
         {
             cout<<"Please select from the given options!"<<endl;
@@ -133,7 +135,7 @@ void shopping::administrator()
     }
     goto m;
 }
-/*
+
 void shopping::buyer()
 {
     m:
@@ -141,28 +143,231 @@ void shopping::buyer()
     cout<<"\t\t\t BUYER                         "<<endl;
     cout<<"\t\t  |      1) BUY PRODUCT         |"<<endl;
     cout<<"\t\t                                 "<<endl;
-    cout<<"\t\t  |      2) GO BACK             |"<<endl;
+    cout<<"\t\t  |      2) SIGNUP              |"<<endl;
+    cout<<"\t\t                                 "<<endl;
+    cout<<"\t\t  |      3) LOGIN               |"<<endl;
+    cout<<"\t\t                                 "<<endl;
+    cout<<"\t\t  |      4) CONTACT'S WITH US   |"<<endl;
+    cout<<"\t\t                                 "<<endl;
+    cout<<"\t\t  |      5) FEEDBACK            |"<<endl;
+    cout<<"\t\t                                 "<<endl;
+    cout<<"\t\t  |      6) REVIEWS             |"<<endl;
+    cout<<"\t\t                                 "<<endl;
+    cout<<"\t\t  |      6) GO BACK             |"<<endl;
     cout<<"\t\t                                 "<<endl;
     cout<<"\t\t\tPlease select: ";
     cin>>choice;
-
     switch (choice)
     {
     case 1:
-        receipt();
+        //receipt();
         break;
     
-    case 2:
+    case 7:
         menu();
         break;
 
+    case 2:
+        {
+          usignup(); 
+        }
+        break;
+
+    case 3:
+        {
+          ulogin(); 
+        }
+        break;
+
+    case 4:
+        {
+          contact(); 
+        }
+        break;
+
+    case 5:
+        {
+          feedback(); 
+        }
+
+    case 6:
+        {
+          reviews();
+        }
+        break;
     default:
         cout<<"Invalid choice!"<<endl;
         break;
     }
     goto m;
 }
-*/
+
+void shopping::usignup()
+{
+  
+  fstream data;
+  string mn;//mail or no.
+  string password;
+  string name;
+  data.open("user.txt",ios::app);
+  cout<<"\t\t Enter Your Name"<<endl;
+  cin>>name;
+  getline(cin, name);
+  data<<name<<"  ";
+  m:
+  cout<<"\t\t Enter Email ID/Phone No."<<endl;
+  cin>>mn;
+  if((mn.length()==10)|| mn.substr(mn.length()-10, mn.length()-1)=="@gmail.com")
+  {
+    data<<mn<<"  ";
+  }
+  else{
+    cout<<"Wrong Email ID/Phone No."<<endl;
+    goto m;
+  }
+  n:
+  cout<<"\t\t Enter Password"<<endl;
+  cin>>password;
+  if(password.length()>7)
+  {
+    data<<password<<endl;
+  }
+  else{
+    cout<<"Password length must be greater than 8"<<endl;
+    goto n;
+  }
+  data.close();
+  
+}
+void shopping::ulogin()
+{
+  m:
+  fstream data;
+  string mn;//mail or no.
+  string mno;
+  string p;
+  string password;
+  string name;
+  int token=0;
+  data.open("user.txt",ios::out);
+  cout<<"\t\t Enter Email ID/Phone No."<<endl;
+  cin>>mno;
+  cout<<"\t\tEnter Password"<<endl;
+  cin>>p;
+  data>>name>>mn>>password;
+  while(!data.eof())
+  {
+    if((mn==mno) && password==p)
+    {
+      token++;
+    }
+    data>>name>>mn>>password;
+  }
+  if(token==0)
+  {
+    cout<<"\t\tWrong Email ID/Password!!"<<endl;
+    int choice;
+    cout<<"\t\t | 1) Try Again!         |"<<endl;
+    cout<<"\t\t | 2) Buy as Normal User |"<<endl;
+    cin>>choice;
+    switch(choice)
+    {
+      case 1:
+        {
+          goto m;
+        }
+        case 2:
+          {
+           // buyer();
+          }
+    }
+  }
+  data.close();
+}
+void shopping::feedback()
+{
+  fstream data;
+  int rating;
+  string feedback;
+  data.open("feedback.txt",ios::app|ios::in);
+  data<<5;
+  data<<"Aap Silicon VAlley aarehe ho"<<endl;
+  data<<5;
+  data<<"ye sab doglapan hai"<<endl;
+  data<<3;
+  data<<"modi sahab se hath jod ke gujarish karta hu, band karo ye sab"<<endl;
+  data<<4;
+  data<<"aap bade mast aadmi ho"<<endl;
+  data<<2;
+  data<<"pehli phursat me nikal"<<endl;
+  
+  cout<<"\t\t Rate Us(1-5):        "<<endl;
+  cin>>rating;
+  data<<rating;
+  cout<<"\t\t Please Give your Valuable feedback"<<endl;
+  getline(cin, feedback);
+  data<<feedback<<endl;
+  data.close();
+}
+void shopping:: reviews()
+{
+  fstream data;
+  int rating;
+  string feedback;
+  data.open("feedback.txt",ios::out);
+  data>>rating>>feedback;
+  while(!data.eof())
+  {
+    if(rating==5)
+    {
+      cout<<"\t\t "<<rating<<"    "<<feedback<<endl;
+    }
+    data>>rating>>feedback;
+  }
+  cout<<endl<<endl;
+  while(!data.eof())
+  {
+    if(rating==4)
+    {
+      cout<<"\t\t "<<rating<<"    "<<feedback<<endl;
+    }
+    data>>rating>>feedback;
+  }
+  while(!data.eof())
+  {
+    if(rating==3)
+    {
+      cout<<"\t\t "<<rating<<"    "<<feedback<<endl;
+    }
+    data>>rating>>feedback;
+  }
+  while(!data.eof())
+  {
+    if(rating==2)
+    {
+      cout<<"\t\t "<<rating<<"    "<<feedback<<endl;
+    }
+    data>>rating>>feedback;
+  }
+  while(!data.eof())
+  {
+    if(rating==1)
+    {
+      cout<<"\t\t "<<rating<<"    "<<feedback<<endl;
+    }
+    data>>rating>>feedback;
+  }
+  data.close();
+}
+void shopping::contact()
+{
+  cout<<"\t\tUtkarsh Ahuja"<<endl;
+  cout<<"\t\t8368865346"<<endl;
+  cout<<"\t\tahujautkarsh80@gmail.com"<<endl;
+  cout<<"\t\tSourav Bhunia"<<endl;
+  cout<<"\t\t9711385682 "<<endl;
+  cout<<"\t\tSouravbhunia153@gmail.com "  <<endl;
+}
 void shopping::add()
 {
     m:
@@ -315,9 +520,25 @@ void shopping::del()
     }
 }
 
+void shopping::list()
+{
+  fstream data;
+  data.open("database.txt", ios::in);
+  cout<<"\n\n|-------------------------------------------------------------------\n";
+  cout<<"ProNo \t\t Name \t\t Price"<<"\t\t"<< "Discount"<<endl;
+  cout<<"\n\n|-------------------------------------------------------------------\n";
+  data>>productcode>>productname>>price>>discount;
+  while (!data.eof())
+  {
+    cout<<productcode<<"\t\t"<<productname<<"\t\t"<<price<<"\t\t"<<discount<<endl;
+    data>>productcode>>productname>>price>>discount;
+  }
+  data.close();
+}
+
 int main()
 {
     shopping s;
-    s.menu();
+    s.list();
     return 0;
 }
